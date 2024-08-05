@@ -1,14 +1,16 @@
 import re
-from nltk.tokenize import sent_tokenize
+import string
 
 ARTICLE_DOI = "S0032063312002437"
 FILENAMETXT = f"./SimpleText/SimpleText_test/{ARTICLE_DOI}.txt"
 
+
 class STMCorpus:
     def __init__(self):
-        self.data = self.load_data()
+        self.text = self.load_text()
+        self.preprocess_data()
 
-    def load_data(self):
+    def load_text(self):
         """
         Load STM article, from file testSetList.txt
         # S0022314X13001777	Mathematics
@@ -25,33 +27,34 @@ class STMCorpus:
         :return: article text
         """
 
-        with open(FILENAMETXT, "r") as file:
-            data = file.read()
+        with open(FILENAMETXT, "r", encoding='utf-8') as file:
+            text = file.read()
 
-        print(data)
+        return text
 
-        # will print ATCAGTGGAAACCCAGTGCTAGAGGATGGAATGACCTTAAATCAGGGACGATATTAAACGGAA
-
-    def preprocess_data(self, text):
+    def preprocess_data(self):
         """
         Preprocess data :
-        remove punctuation,
-        low case,
-        add special symbols in the beginning and at the end of each sentence
+        remove punctuation, low case, remove special characters, remove multiple whitespaces
         :return: cleaned text
         """
-        # Remove commas and change to a low case
-        text = re.sub(r",", "", text.lower())
+        # Remove punctuation and change to a low case
+        self.text = self.text.lower().translate(str.maketrans('', '', string.punctuation))
 
-        # Remove multiple spaces
-        text = re.sub("\\s+", " ", text)
+        # Replace new line with whitespace
+        self.text = re.sub("\\n+", " ", self.text)
 
-        # Add special symbols in the beginning and at the end of the sentence
-        special_symbol_beginning = '<s> '
-        special_symbol_end = ' </s>'
-        text = sent_tokenize(text.lower())
+        # Remove special characters
+        self.text = re.sub("[►∼±×•]", "", self.text)
 
-        # Train corpus has punctuation in the end
-        text = [special_symbol_beginning + t[:-1] + special_symbol_end for t in text]
+        # Remove degrees, °n or °
+        self.text = re.sub("°(n)?", "", self.text)
 
-        return  text
+        # Remove numbers
+        self.text = re.sub("\\d+", "", self.text)
+
+        # Remove multiple whitespaces
+        # Might be a result of "of Fig. 1 with" -> "of Fig  with"
+        self.text = re.sub("\\s+", " ", self.text)
+
+
