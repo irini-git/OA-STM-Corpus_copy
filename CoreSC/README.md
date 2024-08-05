@@ -1,6 +1,6 @@
 # CoreSC Discourse Annotations
 
-There are several different approaches for annotating articles
+There are several different approaches for annotating articles,
 according to the information revealed by their manners of discourse.
 One such approach is the
 Core Scientific Concepts (CoreSC) scheme, described in:
@@ -20,7 +20,7 @@ tagging tool (www.sapientaproject.com), applied to the SimpleText content, after
 For the generation of the version of SAPIENTA used was a python re-implementation of the one described in the Bioinformatics paper.
 You can contact Dr Liakata for more details (m.liakata@warwick.ac.uk).
 
-Please note that this is an intial annotation of the content and does not represent the full
+Please note that this is an initial annotation of the content and does not represent the full
 capabilities of that tool. The quality of the annotation could probably
 be improved if the Elsevier XML were converted to the NLM DTD, then run
 through the tool. The additional sequence clues available there should

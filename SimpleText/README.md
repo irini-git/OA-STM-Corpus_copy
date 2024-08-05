@@ -7,7 +7,7 @@ not included.
 
 This format will be good for basic text mining purposes. However, you
 have to take the tokenization, sentence breaking, etc. as it comes. For
-more advanced text mining you will need to extract the data you need
+more advanced text mining, you will need to extract the data you need
 from the source XML files.
 
 1. SimpleText_auto provides automatically tokenized, sentence broken,
