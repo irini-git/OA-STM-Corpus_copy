@@ -11,7 +11,7 @@ TXTFILEFOLDER = "./SimpleText/SimpleText_test/"
 class STMCorpus:
     def __init__(self):
         self.text = self.load_txt_files()
-        #self.preprocess_data()
+        self.preprocess_data()
 
     def load_txt_files(self):
         """
@@ -35,6 +35,13 @@ class STMCorpus:
         remove punctuation, low case, remove special characters, remove multiple whitespaces
         :return: cleaned text
         """
+
+        # Remove group notation, e.g (Gn,∘)
+        self.text = re.sub("\\s\\(\\w+,∘\\)", "", self.text)
+
+        # Remove some mathematical notation : ⩾ ∈
+        self.text = re.sub("\\S+[⩾∈]\\S+", "", self.text)
+        
         # Remove punctuation and change to a low case
         self.text = self.text.lower().translate(str.maketrans('', '', string.punctuation))
 
@@ -42,7 +49,12 @@ class STMCorpus:
         self.text = re.sub("\\n+", " ", self.text)
 
         # Remove special characters
-        self.text = re.sub("[►∼±×•]", "", self.text)
+        self.text = re.sub("[►]", "", self.text)
+
+        # Remove expressions like n∈n to denote relation "is an element of"
+        # sff′∈hf′
+        # ff′∈⋂cφ¯scφ
+        self.text = re.sub("\\w(′)?∈(⋂)?\\w(′)?", "", self.text)
 
         # Remove degrees, °n or °
         self.text = re.sub("°(n)?", "", self.text)
