@@ -1,34 +1,31 @@
 import re
 import string
+import glob
+import os
+
 
 ARTICLE_DOI = "S0032063312002437"
 FILENAMETXT = f"./SimpleText/SimpleText_test/{ARTICLE_DOI}.txt"
-
+TXTFILEFOLDER = "./SimpleText/SimpleText_test/"
 
 class STMCorpus:
     def __init__(self):
-        self.text = self.load_text()
-        self.preprocess_data()
+        self.text = self.load_txt_files()
+        #self.preprocess_data()
 
-    def load_text(self):
+    def load_txt_files(self):
         """
-        Load STM article, from file testSetList.txt
-        # S0022314X13001777	Mathematics
-        # S0032063312002437	Astronomy
-        # S0032386113009889	Materials_Science
-        # S0167610513002729	Engineering
-        # S0167739X13001349	Computer_Science
-        # S016816561300552X	Biology
-        # S1161030113001950	Agriculture
-        # S1387700313001822	Chemistry
-        # S1750583613004192	Earth_Science
-        # S2213158213001253	Medicine
-        # For more search on web https://www.sciencedirect.com/science/article/pii/S0022314X13001777
-        :return: article text
+        Load all available articles in txt format from the specified folder,
+        and contatenate to one string.
+        :return: self.text will raw data
         """
+        txt_files = glob.glob(os.path.join(TXTFILEFOLDER, '*.txt'))
 
-        with open(FILENAMETXT, "r", encoding='utf-8') as file:
-            text = file.read()
+        text = ''
+
+        for file in txt_files:
+            with open(file, 'r', encoding='utf-8') as f:
+                text += f.read()
 
         return text
 
