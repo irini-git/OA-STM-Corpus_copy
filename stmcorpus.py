@@ -40,8 +40,8 @@ class STMCorpus:
         self.text = re.sub("\\s\\(\\w+,∘\\)", "", self.text)
 
         # Remove some mathematical notation : ⩾ ∈
-        self.text = re.sub("\\S+[⩾∈]\\S+", "", self.text)
-        
+        self.text = re.sub("\\S+⩾\\S+", "", self.text)
+
         # Remove punctuation and change to a low case
         self.text = self.text.lower().translate(str.maketrans('', '', string.punctuation))
 
